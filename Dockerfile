@@ -6,9 +6,9 @@ RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     yum -y install nmap bind-utils net-tools curl traceroute mtr tcpdump && \
     yum clean all
 
-ADD root /
+#ADD root /
 
-RUN chmod 777 /run.sh
+#RUN chmod 777 /run.sh
 
 USER 997
 ENTRYPOINT ["/bin/sh"]
