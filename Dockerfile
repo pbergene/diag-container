@@ -2,8 +2,8 @@ FROM centos:centos7
 MAINTAINER Paul Bergene <pbergene@redhat.com>
 
 RUN yum -y install --setopt=tsflags=nodocs epel-release && \
-    yum -y install nmap
-    yum clean all 
+    yum -y install nmap bind-utils net-tools curl && \
+    yum clean all
 
 ADD root /
 
