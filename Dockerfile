@@ -11,4 +11,4 @@ ADD root /
 RUN chmod 777 /run.sh
 
 USER 997
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/sh"]
