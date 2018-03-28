@@ -3,4 +3,6 @@ echo "----"
 id
 echo "----"
 
+ls -l /bin
+
 sh
