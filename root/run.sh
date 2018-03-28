@@ -5,4 +5,4 @@ echo "----"
 
 ls -la /bin/bash
 
-/bin/bash
+sleep infinity
