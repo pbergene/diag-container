@@ -8,6 +8,8 @@ RUN yum -y install --setopt=tsflags=nodocs epel-release && \
 
 ADD root /
 
+ENV TERM=vt100
+
 RUN chmod 777 /run.sh
 
 USER 997
