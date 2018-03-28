@@ -3,4 +3,4 @@ echo "----"
 id
 echo "----"
 
-/bin/bash
+sh
