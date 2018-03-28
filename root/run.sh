@@ -3,6 +3,6 @@ echo "----"
 id
 echo "----"
 
-ls -la /bin/bash
+curl ipinfo.io
 
 sleep infinity
