@@ -3,6 +3,6 @@ echo "----"
 id
 echo "----"
 
-ls -l /bin
+ls -la /bin/bash
 
-sh
+/bin/bash
