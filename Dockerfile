@@ -8,7 +8,7 @@ RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     yum -y install postgresql96 && \
     yum clean all
 
-RUN pip install aws 
+RUN pip install awscli
 
 ADD root /
 
