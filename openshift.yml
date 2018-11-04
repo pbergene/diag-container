@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: try-openshift-com
+objects:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: diag-container
+    name: diag-container
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: diag-container
+      deploymentconfig: diag-container
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: diag-container
+          deploymentconfig: diag-container
+      spec:
+        containers:
+        - image: ${IMAGE}:${IMAGE_TAG}
+          imagePullPolicy: Always
+          name: diag-container
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+parameters:
+- name: IMAGE
+  value: quay.io/app-sre/diag-container
+- name: IMAGE_TAG
+  value: latest
