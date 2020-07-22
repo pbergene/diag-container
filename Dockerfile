@@ -7,7 +7,7 @@ RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     yum -y install git pcp telnet nmap python python-pip bind-utils net-tools curl traceroute mtr tcpdump mysql && \
     yum clean all
 
-RUN pip install awscli
+RUN pip install awscli redis
 
 ADD root /
 
