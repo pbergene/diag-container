@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM quay.io/app-sre/centos:7
 
 RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     yum -y install https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/postgresql10-libs-10.13-1PGDG.rhel7.x86_64.rpm && \
