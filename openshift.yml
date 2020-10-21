@@ -3,51 +3,97 @@ kind: Template
 metadata:
   name: diag-container
 objects:
-- apiVersion: apps.openshift.io/v1
-  kind: DeploymentConfig
+- apiVersion: apps/v1
+  kind: Deployment
   metadata:
     labels:
       app: diag-container
     name: diag-container
   spec:
     replicas: 1
-    revisionHistoryLimit: 10
+    revisionHistoryLimit: 2
     selector:
-      app: diag-container
-      deploymentconfig: diag-container
+      matchLabels:
+        app: diag-container
     strategy:
-      activeDeadlineSeconds: 21600
-      resources: {}
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 25%
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-      type: Rolling
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 0
+        maxSurge: 1
     template:
       metadata:
         labels:
           app: diag-container
-          deploymentconfig: diag-container
       spec:
         containers:
         - image: ${IMAGE}:${IMAGE_TAG}
-          imagePullPolicy: Always
           name: diag-container
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-    test: false
-    triggers:
-    - type: ConfigChange
+          resources:
+            limits:
+              cpu: ${{CPU_LIMIT}}
+              memory: ${{MEMORY_LIMIT}}
+            requests:
+              cpu: ${{CPU_REQUEST}}
+              memory: ${{MEMORY_REQUEST}}
+          env:
+          - name: PGHOST
+            valueFrom:
+              secretKeyRef:
+                name: ${{DB_SECRET_NAME}}
+                key: "db.host"
+                optional: true
+          - name: PGPORT
+            valueFrom:
+              secretKeyRef:
+                name: ${{DB_SECRET_NAME}}
+                key: "db.port"
+                optional: true
+          - name: PGDATABASE
+            valueFrom:
+              secretKeyRef:
+                name: ${{DB_SECRET_NAME}}
+                key: "db.name"
+                optional: true
+          - name: PGUSER
+            valueFrom:
+              secretKeyRef:
+                name: ${{DB_SECRET_NAME}}
+                key: "db.user"
+                optional: true
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ${{DB_SECRET_NAME}}
+                key: "db.password"
+                optional: true
+          - name: PGSSLMODE
+            value: ${{PGSSLMODE}}
+            optional: true
+          - name: PGCONNECT_TIMEOUT
+            value: ${PGCONNECT_TIMEOUT}
+            optional: true
 parameters:
 - name: IMAGE
   value: quay.io/app-sre/diag-container
 - name: IMAGE_TAG
   value: latest
+- name: POSTGRES_DB_SECRET_NAME
+  value: ""
+- name: PGCONNECT_TIMEOUT
+  value: "30"
+  required: true
+- name: PGSSLMODE
+  value: "require"
+  required: true
+- name: CPU_REQUEST
+  value: "100m"
+  required: true
+- name: MEMORY_REQUEST
+  value: "128Mi"
+  required: true
+- name: MEMORY_LIMIT
+  value: "1Gi"
+  required: true
+- name: CPU_LIMIT
+  value: "1000m"
+  required: true
