@@ -39,31 +39,31 @@ objects:
           - name: PGHOST
             valueFrom:
               secretKeyRef:
-                name: ${{DB_SECRET_NAME}}
+                name: ${{POSTGRES_DB_SECRET_NAME}}
                 key: "db.host"
                 optional: true
           - name: PGPORT
             valueFrom:
               secretKeyRef:
-                name: ${{DB_SECRET_NAME}}
+                name: ${{POSTGRES_DB_SECRET_NAME}}
                 key: "db.port"
                 optional: true
           - name: PGDATABASE
             valueFrom:
               secretKeyRef:
-                name: ${{DB_SECRET_NAME}}
+                name: ${{POSTGRES_DB_SECRET_NAME}}
                 key: "db.name"
                 optional: true
           - name: PGUSER
             valueFrom:
               secretKeyRef:
-                name: ${{DB_SECRET_NAME}}
+                name: ${{POSTGRES_DB_SECRET_NAME}}
                 key: "db.user"
                 optional: true
           - name: PGPASSWORD
             valueFrom:
               secretKeyRef:
-                name: ${{DB_SECRET_NAME}}
+                name: ${{POSTGRES_DB_SECRET_NAME}}
                 key: "db.password"
                 optional: true
           - name: PGSSLMODE
