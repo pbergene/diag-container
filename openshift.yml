@@ -6,6 +6,8 @@ objects:
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
+    annotations:
+      ignore-check.kube-linter.io/minimum-three-replicas: "skip"
     labels:
       app: diag-container
     name: diag-container
