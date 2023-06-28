@@ -3,7 +3,7 @@
 FROM quay.io/fedora/fedora:36
 
 RUN dnf -y update && \
-    dnf -y install python3-pip git pcp telnet nmap bind-utils net-tools curl traceroute mtr tcpdump community-mysql postgresql rsync && \
+    dnf -y install python3-pip git pcp telnet nmap bind-utils net-tools curl traceroute mtr tcpdump community-mysql postgresql rsync skopeo && \
     dnf clean all
 
 RUN pip install awscli redis
