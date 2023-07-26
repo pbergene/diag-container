@@ -77,6 +77,24 @@ objects:
           - name: PGCONNECT_TIMEOUT
             value: ${PGCONNECT_TIMEOUT}
             optional: true
+          - name: REDISCLI_AUTH
+            valueFrom:
+              secretKeyRef:
+                name: ${{REDIS_SECRET_NAME}}
+                key: "db.auth_token"
+                optional: true
+          - name: REDISCLI_HOST
+            valueFrom:
+              secretKeyRef:
+                name: ${{REDIS_SECRET_NAME}}
+                key: "db.endpoint"
+                optional: true
+          - name: REDISCLI_PORT
+            valueFrom:
+              secretKeyRef:
+                name: ${{REDIS_SECRET_NAME}}
+                key: "db.port"
+                optional: true
         volumes:
         - name: diag-container
           persistentVolumeClaim:
@@ -98,7 +116,7 @@ parameters:
 - name: IMAGE_TAG
   value: latest
 - name: POSTGRES_DB_SECRET_NAME
-  value: ""
+  value: "empty"
 - name: PGCONNECT_TIMEOUT
   value: "30"
   required: true
@@ -120,3 +138,5 @@ parameters:
 - name: PVC_SIZE
   value: "1Gi"
   required: true
+- name: REDIS_SECRET_NAME
+  value: "empty"
